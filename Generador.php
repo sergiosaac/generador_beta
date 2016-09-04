@@ -1,15 +1,24 @@
 <?php 
 
+
+
 class Generador{
+
+	public function __construct()
+	{
+		require 'database/Conexion.php';
+		$model = new Conexion;
+		$this->conexion = $model->conectar();
+
+	}
 
 	/*
 		Funcion que generar formalarios, se le pasa un array asociativo.		
 		//PARAMETROS: guardar.cliente.php, POST, array( array('text','nombre'),array('text','apellido')).....,form-boostrap
 	*/
-
-	public function generar_formularios($action,$method,$campos,$personalizados = null)
+	public function generar_formularios($nombre_formulario,$action,$method,$campos,$personalizados = null)
 	{		
-		echo '<form action="'.$action.'" method="'.$method.'">';
+		echo '<form id="'.$nombre_formulario.'" action="'.$action.'" method="'.$method.'">';
 
 		for ($i=0; $i < count($campos); $i++) {
 			if ($campos[$i][0] == 'select') {
@@ -46,11 +55,58 @@ class Generador{
 	/*
 		Funcion para crear insert automatico en mysql
 	*/
-	public function crear_sql_insert()
+	public function crear_sql_e_insert($formulario_entero,$tabla)
 	{
-		# code...
+		$insertColumns = array();
+		$insertValues = array();
+		
+ 	   	foreach ( $formulario_entero as $key => $value ) {
+
+ 	   		if ((int)$value) {
+ 	   			echo "Entero";
+ 	   		}else{ 
+ 	   			$value = "'".$value."'";
+ 	   		}
+ 	   		array_push($insertColumns, "`".$key."`");
+ 	   		array_push($insertValues, $value);
+    	}
+
+        $columnas = implode(",", $insertColumns);
+        $valores = implode(",", $insertValues);
+        
+        $sql = "INSERT INTO $tabla ($columnas) VALUES ($valores)";
+        $consulta = $this->conexion->prepare($sql);
+        
+        if (!$consulta) {
+            $this->mensaje = "Error al crear registro";
+        } else {
+            $consulta->execute();
+            $this->mensaje = "Registro creado correctamente";
+            $this->ultimoId = $this->conexion->lastInsertId();
+        }
 	}
 }
 
 
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

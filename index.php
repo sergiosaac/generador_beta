@@ -1,4 +1,3 @@
-
 <?php 
 
 require 'Generador.php';
@@ -15,8 +14,9 @@ $objeto = new Generador;
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
 	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
+	<script type="text/javascript" src="js/funciones.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -25,7 +25,7 @@ $objeto = new Generador;
 			<div class="col-sm-6">
 				<div class="jumbotron">
 				    <?php 
-				    	$objeto->generar_formularios('index.php','POST',
+				    	$objeto->generar_formularios('formulario1','create.php','POST',
 							array(
 								['text','nombre'],
 								['text','apellido'],
@@ -46,18 +46,12 @@ $objeto = new Generador;
 			</div>
 		    <div class="col-sm-6">
 		    	<?php 
-			    	$objeto->generar_formularios('index.php','POST',
+			    	$objeto->generar_formularios('formulario2','#','POST',
 						array(
-							['text','tema'],
-							['textarea','comentario'],
-							['select','rubro',['TI','Ventas']],
-						),
-						'<div class="checkbox">
-							<label><input type="checkbox" value="">Option 1</label>
-						</div>
-						<div class="checkbox">
-							<label><input type="checkbox" value="">Option 2</label>
-						</div>'
+							['text','nombreComida'],
+							['text','calorias'],
+							['select','tipo',['Menu dietético','Menu normal','Menu intermedio']],
+						)
 						); 
 					?>
 		    </div>
