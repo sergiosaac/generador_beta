@@ -8,10 +8,9 @@ class Generador{
 	*/
 
 	public function generar_formularios($action,$method,$campos,$personalizados = null)
-	{	
-		
+	{		
 		echo '<form action="'.$action.'" method="'.$method.'">';
-	
+
 		for ($i=0; $i < count($campos); $i++) {
 			if ($campos[$i][0] == 'select') {
 			
@@ -40,18 +39,13 @@ class Generador{
 		}
 		
 		echo $personalizados;
-		
 		echo '<button type="submit" class="btn btn-default">Enviar</button>';
 		echo "</form>";
 	}
 
-
-
-
 	/*
 		Funcion para crear insert automatico en mysql
 	*/
-
 	public function crear_sql_insert()
 	{
 		# code...
