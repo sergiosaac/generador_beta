@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require 'Generador.php';
 $objeto = new Generador;
@@ -6,7 +6,7 @@ $objeto = new Generador;
 ?>
 <html>
 <head>
-	<title>Pag</title>
+	<title>Rapido - Sergio Amarilla</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -20,42 +20,35 @@ $objeto = new Generador;
 </head>
 <body>
 	<div class="container">
-		<h4>Generador de FORM</h4>	
+		<br>
+		<h3>Generador de FORM - CRUD - AJAX</h3>
+		<p>Componente para crear sistema CRUD - AJAX rapido, solo creando array con los campos que se necestaran. Version BETA.</p>
+		<hr>
 		<div class="row">
-			<div class="col-sm-6">
-				<div class="jumbotron">
-				    <?php 
-				    	$objeto->generar_formularios('formulario1','create.php','POST',
-							array(
-								['text','nombre'],
-								['text','apellido'],
-								['text','puesto'],
-								['text','trabajo'],
-								['text','ci'],
-								['textarea','comentario'],
-								['select','color',['Amarillo','Verde','Azul','Negro']],
-							),
-							'<div class="form-group">
-				        		<div class="checkbox">
-				          			<label><input type="checkbox"> Recuerda</label>
-				        		</div>
-				    		</div>'
-							); 
-					?>
-			 	</div>	
+			<div class="col-sm-8">
+				<div class="tabla_listado">
+					<?php require 'listado_tabla.php' ?>
+			 	</div>
 			</div>
-		    <div class="col-sm-6">
-		    	<?php 
-			    	$objeto->generar_formularios('formulario2','#','POST',
-						array(
-							['text','nombreComida'],
-							['text','calorias'],
-							['select','tipo',['Menu dietético','Menu normal','Menu intermedio']],
-						)
-						); 
-					?>
-		    </div>
-		</div>	
+			<div class="col-sm-4">
+				<div class="jumbotron">
+					<h4>Ingresa los datos:</h4>
+					<hr>
+				<?php
+					$objeto->generar_formularios('formulario2','#','POST',
+
+					array(
+						['text','titulo'],
+						['text','videosNovedad'],
+						['text','contenido'],
+						['text','imagen'],
+						['date','fecha'],
+					)
+					);
+				?>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

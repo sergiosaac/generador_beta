@@ -1,8 +1,8 @@
 
 
 $(document).ready(function() {
-  
-  $(document).on('submit', '#formulario2', function () {    
+
+  $(document).on('submit', '#formulario2', function () {
         var elemento = this;
         event.preventDefault()
         var dataString = $(elemento).serialize();
@@ -13,9 +13,11 @@ $(document).ready(function() {
             url: "create.php",
             data: dataString,
             success: function(data) {
-                $(elemento).fadeOut();
+                //$(elemento).fadeOut();
                 console.log(data);
                 $(elemento).parent().append('<div class="alert alert-success"> <strong>Correcto!</strong> Formulario enviado.</div>');
+                $(".tabla_listado").load('listado_tabla.php');
+                setTimeout(function(){ $('.alert').fadeOut() }, 3000);
             },
             // código a ejecutar si la petición falla;
             // son pasados como argumentos a la función
@@ -25,5 +27,16 @@ $(document).ready(function() {
             }
         });
     });
+
+    $(document).on('click', '.editar', function () {
+      console.log($(this).data("id"));
+    });
+
+    $(document).on('click', '.eliminar', function () {
+      $(this).parent().parent().fadeOut();
+      console.log($(this).data("id"));
+    });
+
+
 
 });
