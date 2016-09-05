@@ -13,6 +13,7 @@ class Generador
     {
         echo '<form id="' . $nombre_formulario . '" action="' . $action . '" method="' . $method . '">';
 
+        //Verificamos que tipo de input se solicita con el for
         for ($i = 0; $i < count($campos); $i++) {
             if ($campos[$i][0] == 'select') {
 
@@ -54,26 +55,26 @@ class Generador
 
 
     /*
-    Generar tabla de control de informacion
+      Generar tabla de control de informacion
     */
-
     public function generar_tabla_de_control($data)
     {
+        //Se crea el encabezado de la tabla y la fila y sus columnas con los items
         echo '<h3>Lista de elmentos</h3><hr><table class="table"><thead><tr>';
-
 				for ($i=0; $i < count($data[0]); $i++) {
 					echo '<th>'.$data[0][$i].'</th>';
 				}
-
 				echo '<th colspan="2">Editar</th>';
-        echo "</tr></thead><tbody>";
 
-				for ($i=0; $i < count($data[1]); $i++) {
+        //Se crea el body de la tabla, serian los contenidos tal cual
+        echo "</tr></thead><tbody>";
+				for ($i=0; $i < count($data[1]); $i++) { //Se recorre el segunto elemento del ARRAY data para tener las filas
 					echo "<tr>";
-						for ($j=0; $j < (count($data[1][$i])/2)-2; $j++) {
+						for ($j=0; $j < (count($data[1][$i])/2)-2; $j++) { // Se crean las columnas para la fila
 							echo "<td>" . $data[1][$i][$j] . "</td>";
 						}
-						echo '<td><button data-id="' . $data[1][$i][0] . '" type="button" class="editar btn btn-primary btn-xs">Editar</button></td>';
+            //Se agregan la columna con los botones EDITAR ELIMINAR
+						echo '<td><button type="button" class="editar btn btn-primary btn-xs"><a style="color:white;"href="actualizar.php?id=' . $data[1][$i][0] . '">Editar</a></button></td>';
 						echo '<td><button data-id="' . $data[1][$i][0] . '" type="button" class="eliminar btn btn-danger btn-xs">Eliminar</button></td>';
 					echo "</tr>";
 				}
@@ -122,11 +123,48 @@ class Generador
     }
 
 
-
     /*
-    Funcion para hacer update
-
+      Funcion para hacer update
+      Array de formulario actualizado,'informacion_tabla'
     */
+    public function generar_sql_y_update($formulario_entero_actualizado,$tabla)
+    {
+      require 'database/Conexion.php';
+			$model          = new Conexion;
+			$conexion = $model->conectar();
+
+        $updateColumns = array();
+        $updateValues  = array();
+
+        foreach ($formulario_entero_actualizado as $key => $value) {
+
+            if (strpos($value,'-')) {
+              $value = "'" . $value . "'";
+            } elseif((int) $value) {
+              echo "Entero";
+            }else{
+              $value = "'" . $value . "'";
+            }
+            array_push($updateColumns, "`" . $key . "`");
+            array_push($updateValues, $value);
+        }
+
+        $columnas = implode(",", $updateColumns);
+        $valores  = implode(",", $updateValues);
+        $set = "`titulo` = 'Actualizado'";
+        $condition = "WHERE `id` = '40';";
+        $sql = "UPDATE $tabla SET $set $condition";
+        //$sql      = "INSERT INTO $tabla ($columnas) VALUES ($valores)";
+        $consulta = $conexion->prepare($sql);
+
+        if (!$consulta) {
+            $this->mensaje = "Error al crear registro";
+        } else {
+            $consulta->execute();
+            $this->mensaje  = "Registro creado correctamente";
+            $this->ultimoId = $conexion->lastInsertId();
+        }
+    }
 }
 
 

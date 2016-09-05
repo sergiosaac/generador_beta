@@ -28,10 +28,6 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on('click', '.editar', function () {
-      console.log($(this).data("id"));
-    });
-
     $(document).on('click', '.eliminar', function () {
       $(this).parent().parent().fadeOut();
       console.log($(this).data("id"));
