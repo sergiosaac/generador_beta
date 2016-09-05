@@ -54,6 +54,55 @@ class Generador
     }
 
 
+
+    /*
+    Generar formualrio para update
+    */
+    public function generar_formularios_para_update($titulo, $nombre_formulario_update, $action_update, $method_update, $campos)
+    {
+      echo '<form id="' . $nombre_formulario_update . '" action="' . $action_update . '" method="' . $method_update . '">';
+
+      //Verificamos que tipo de input se solicita con el for
+      for ($i = 0; $i < count($campos); $i++) {
+          if ($campos[$i][0] == 'select') {
+
+              echo '<div class="form-group">';
+              echo '<label for="' . $campos[$i][1] . '">' . ucwords($campos[$i][1]) . ':</label>';
+              echo '<select class="form-control" id="' . $campos[$i][1] . '" name="' . $campos[$i][1] . '" required>';
+              for ($j = 0; $j < count($campos[$i][2]); $j++) {
+                  echo '<option value="' . $campos[$i][2][$j] . '">' . $campos[$i][2][$j] . '</option>';
+              }
+              echo '</select>';
+              echo '</div>';
+
+          } elseif ($campos[$i][0] == 'text') {
+
+              echo '<div class="form-group">';
+              echo '<label for="' . $campos[$i][1] . '">' . ucwords($campos[$i][1]) . ':</label>';
+              echo '<input type="' . $campos[$i][0] . '" name="' . $campos[$i][1] . '" class="form-control" id="' . $campos[$i][1] . '" required>';
+              echo "</div>";
+
+          } elseif ($campos[$i][0] == 'textarea') {
+              echo '<div class="form-group">';
+              echo '  <label for="' . $campos[$i][1] . '">' . ucwords($campos[$i][1]) . ':</label>';
+              echo '  <textarea class="form-control" rows="5" name="' . $campos[$i][1] . '" id="' . $campos[$i][1] . '" required></textarea>';
+              echo '</div>';
+          }
+
+          if ($campos[$i][0] != 'textarea' && $campos[$i][0] != 'text' && $campos[$i][0] != 'select') {
+            echo '<div class="form-group">';
+            echo '  <label for="' . $campos[$i][1] . '">' . ucwords($campos[$i][1]) . ':</label>';
+            echo '<input type="' . $campos[$i][0] . '" name="' . $campos[$i][1] . '" class="form-control" id="' . $campos[$i][1] . '" required>';
+            echo '</div>';
+          }
+      }
+
+      echo $personalizados;
+      echo '<button type="submit" class="btn btn-default">Enviar</button>';
+      echo "</form>";
+    }
+
+
     /*
       Generar tabla de control de informacion
     */
